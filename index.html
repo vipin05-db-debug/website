@@ -3,390 +3,408 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SOURCE VAULT | EXPANDED</title>
+    <title>SOURCE VAULT | 20 SECTIONS</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
     
     <style>
-        /* --- CORE VARS --- */
+        /* --- CORE --- */
         :root {
             --bg: #050505;
-            --card-front: #141414;
-            --card-border: #2a2a2a;
+            --section-bg: #0a0a0a;
             --accent: #b4f705;
+            --neon-blue: #00f3ff;
             --text: #e0e0e0;
-            --glass: rgba(20,20,20,0.8);
+            --border: #222;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Space Grotesk', sans-serif;
-            overflow-x: hidden;
-            padding-bottom: 100px;
-        }
+        body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
 
-        /* --- 1. NAV --- */
+        /* --- NAV --- */
         nav {
-            padding: 20px 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            top: 0; width: 100%;
-            background: var(--glass);
-            backdrop-filter: blur(12px);
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 20px 25px; display: flex; justify-content: space-between; align-items: center;
+            position: fixed; top: 0; width: 100%; background: rgba(5,5,5,0.9); backdrop-filter: blur(10px);
+            z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-        .logo { font-weight: 700; font-size: 1.2rem; letter-spacing: 1px; }
-        .nav-right { display: flex; align-items: center; gap: 20px; }
+        .logo { font-weight: 700; font-size: 1.2rem; letter-spacing: 1px; cursor: pointer; user-select: none; }
         .signup-btn {
             background: transparent; border: 1px solid var(--accent); color: var(--accent);
-            padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; text-transform: uppercase;
-            cursor: pointer; transition: 0.2s;
+            padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; text-transform: uppercase; cursor: pointer;
         }
-        .signup-btn:active { background: var(--accent); color: black; }
         .hamburger { width: 30px; display: flex; flex-direction: column; gap: 6px; }
         .line { width: 100%; height: 2px; background: white; }
 
-        /* --- 2. NEW TOP SECTION: KINETIC SCROLL --- */
-        .kinetic-section {
-            padding-top: 100px;
-            padding-bottom: 50px;
-            overflow: hidden;
-            border-bottom: 1px solid #222;
+        /* --- ORIGINAL: TOP BIG STACK --- */
+        .top-stack-section { height: 500px; position: relative; display: flex; justify-content: center; align-items: center; margin-top: 60px; }
+        .big-stack-wrapper { position: relative; width: 85%; height: 380px; }
+        .big-card {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(145deg, #222, #111); border: 1px solid #444; border-radius: 25px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8); transform-origin: center bottom;
         }
-        .kinetic-row {
-            display: flex;
-            white-space: nowrap;
-            font-size: 3rem;
-            font-weight: 700;
-            line-height: 1.1;
-            color: #222;
-            -webkit-text-stroke: 1px #444;
-            text-transform: uppercase;
-        }
-        .highlight { color: var(--accent); -webkit-text-stroke: 0; }
-        
-        /* --- 3. MAIN PROJECT GRID (2x3) --- */
-        .library-container { padding: 40px 20px; }
-        .section-header { 
-            font-size: 0.9rem; letter-spacing: 2px; color: #666; 
-            margin-bottom: 30px; display: flex; align-items: center; gap: 10px;
-        }
-        .section-header::before { content:''; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; }
 
-        .grid-layout {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: repeat(3, auto);
-            gap: 20px 15px;
-        }
-        .stack-wrapper {
-            position: relative; width: 100%; aspect-ratio: 3/4;
-            perspective: 1000px; z-index: 1;
-        }
+        /* --- ORIGINAL: MAIN GRID --- */
+        .library-container { padding: 40px 20px; }
+        .grid-title { margin-bottom: 20px; font-size: 1.2rem; border-left: 3px solid var(--accent); padding-left: 10px; }
+        .grid-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .stack-wrapper { position: relative; width: 100%; aspect-ratio: 3/4; perspective: 1000px; z-index: 1; }
         .mini-card {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--card-front);
-            border: 1px solid var(--card-border);
-            border-radius: 15px;
-            padding: 15px;
+            background: #181818; border: 1px solid #333; border-radius: 15px; padding: 15px;
             display: flex; flex-direction: column; justify-content: space-between;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transform-origin: center bottom;
-            will-change: transform;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5); transform-origin: center bottom; will-change: transform;
         }
 
-        /* --- 4. THE 10 NEW SECTIONS --- */
-        .content-section {
-            padding: 40px 20px;
-            border-top: 1px solid #1a1a1a;
-            opacity: 0; /* Hidden for scroll animation */
-            transform: translateY(30px);
+        /* =========================================
+           THE 20 NEW ANIMATED SECTIONS
+           ========================================= */
+        
+        .new-section {
+            padding: 60px 20px;
+            border-top: 1px solid var(--border);
+            min-height: 300px;
+            display: flex; flex-direction: column; justify-content: center;
+            opacity: 0; transform: translateY(50px); /* Initial State for Animation */
+            position: relative; overflow: hidden;
         }
-        .content-title { font-size: 1.5rem; margin-bottom: 20px; color: #fff; }
+        .sec-title { font-size: 2rem; margin-bottom: 20px; text-transform: uppercase; color: #fff; }
+        .sec-desc { color: #888; margin-bottom: 30px; font-size: 0.9rem; max-width: 600px; }
 
-        /* 1. Stats */
-        .stats-grid { display: flex; justify-content: space-between; }
-        .stat-box h2 { font-size: 2.5rem; color: var(--accent); line-height: 1; }
-        .stat-box p { font-size: 0.8rem; color: #666; }
+        /* 1. Kinetic Text */
+        .kinetic-row { font-size: 4rem; white-space: nowrap; font-weight: 700; -webkit-text-stroke: 1px #444; color: transparent; line-height: 0.9; }
 
-        /* 2. Tech Stack */
-        .tech-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        .tech-item { background: #111; padding: 15px; text-align: center; border-radius: 8px; font-size: 0.7rem; border: 1px solid #222; }
+        /* 2. Bento Grid Stats */
+        .bento-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .bento-box { background: #111; padding: 20px; border-radius: 15px; border: 1px solid #333; text-align: center; }
+        .bento-num { font-size: 2.5rem; color: var(--accent); font-weight: bold; }
 
-        /* 3. Terminal */
-        .terminal-window { background: #111; border: 1px solid #333; border-radius: 8px; padding: 15px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #bbb; }
+        /* 3. The Car */
+        .car-track { width: 100%; border-bottom: 2px dashed #333; position: relative; margin-top: 50px; }
+        .svg-car { width: 100px; position: absolute; bottom: 0; left: 0; }
+        .wheel { animation: spin 1s linear infinite; transform-origin: center; box-transform-origin: center; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* 4. Terminal */
+        .terminal-box { background: #080808; border: 1px solid #333; padding: 20px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; color: #aaa; }
         .cursor { display: inline-block; width: 8px; height: 15px; background: var(--accent); animation: blink 1s infinite; }
         @keyframes blink { 50% { opacity: 0; } }
 
-        /* 4. Pricing */
-        .price-card { background: #111; padding: 20px; border-radius: 15px; border: 1px solid #333; margin-bottom: 15px; }
-        .price-head { display: flex; justify-content: space-between; margin-bottom: 15px; }
-        .price-btn { width: 100%; padding: 10px; background: #222; color: #fff; border: none; border-radius: 8px; margin-top: 10px; }
+        /* 5. Horizontal Scroll Gallery */
+        .h-scroll-wrap { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 20px; }
+        .h-card { min-width: 250px; height: 150px; background: #161616; border-radius: 12px; border: 1px solid #333; flex-shrink: 0; }
 
-        /* 5. Timeline */
-        .timeline-item { border-left: 2px solid #333; padding-left: 20px; margin-bottom: 20px; position: relative; }
-        .timeline-item::before { content:''; position:absolute; left: -6px; top: 0; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; }
+        /* 6. 3D Tilt Pricing */
+        .pricing-card { background: #111; padding: 30px; border-radius: 20px; border: 1px solid #333; text-align: center; transition: transform 0.1s; }
+        
+        /* 7. Timeline */
+        .timeline-wrap { border-left: 2px solid #333; padding-left: 20px; }
+        .time-item { margin-bottom: 30px; position: relative; }
+        .time-dot { width: 10px; height: 10px; background: var(--accent); border-radius: 50%; position: absolute; left: -26px; top: 5px; }
 
-        /* 6. FAQ */
-        .faq-item { border-bottom: 1px solid #222; padding: 15px 0; }
-        .faq-q { display: flex; justify-content: space-between; font-weight: 500; }
-        .faq-a { font-size: 0.85rem; color: #888; margin-top: 10px; display: none; }
+        /* 8. Tech Stack (Floating) */
+        .tech-cloud { display: flex; flex-wrap: wrap; gap: 10px; }
+        .tech-tag { padding: 8px 16px; border: 1px solid #333; border-radius: 20px; font-size: 0.8rem; color: #888; }
 
-        /* 7. Quote */
-        .quote-box { font-size: 1.5rem; font-style: italic; color: #666; border-left: 4px solid var(--accent); padding-left: 20px; }
+        /* 9. Glitch Newsletter */
+        .glitch-input { width: 100%; padding: 15px; background: #000; border: 1px solid var(--accent); color: var(--accent); font-family: 'JetBrains Mono'; margin-bottom: 10px; }
 
-        /* 8. Video Placeholder */
-        .vid-box { width: 100%; aspect-ratio: 16/9; background: #111; display: flex; align-items: center; justify-content: center; border-radius: 15px; border: 1px solid #333; }
-        .play-btn { width: 50px; height: 50px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: black; }
+        /* 10. Accordion FAQ */
+        .faq-row { border-bottom: 1px solid #222; padding: 20px 0; }
+        .faq-q { display: flex; justify-content: space-between; cursor: pointer; }
+        
+        /* 11. Liquid Blob */
+        .blob-canvas { filter: blur(10px) contrast(20); background: #000; height: 200px; display: flex; justify-content: center; align-items: center; }
+        .blob { width: 80px; height: 80px; background: var(--neon-blue); border-radius: 50%; position: absolute; }
 
-        /* 9. Newsletter */
-        .news-input { width: 100%; padding: 15px; background: #111; border: 1px solid #333; color: white; border-radius: 8px; margin-bottom: 10px; }
-        .news-btn { width: 100%; padding: 15px; background: var(--accent); border: none; font-weight: bold; border-radius: 8px; }
+        /* 12. Infinite Marquee */
+        .marquee-strip { background: var(--accent); color: #000; padding: 10px 0; white-space: nowrap; overflow: hidden; transform: rotate(-2deg); width: 110%; margin-left: -5%; }
 
-        /* 10. Links */
-        .link-list a { display: block; padding: 15px; border-bottom: 1px solid #222; color: #aaa; text-decoration: none; display: flex; justify-content: space-between; }
+        /* 13. Team Profiles */
+        .team-row { display: flex; gap: 20px; justify-content: center; }
+        .profile-circle { width: 80px; height: 80px; border-radius: 50%; background: #222; border: 2px solid #444; }
 
-        /* --- SURPRISE FOOTER --- */
-        .surprise-wrapper { text-align: center; padding: 50px 0; }
-        .surprise-btn { border: 1px solid #333; padding: 15px 40px; border-radius: 30px; color: #666; text-transform: uppercase; letter-spacing: 2px; }
+        /* 14. Skill Bars */
+        .skill-track { width: 100%; height: 6px; background: #222; border-radius: 3px; margin-bottom: 15px; overflow: hidden; }
+        .skill-fill { height: 100%; background: var(--accent); width: 0%; /* animate to width */ }
+
+        /* 15. Audio Viz */
+        .viz-bars { display: flex; align-items: flex-end; gap: 5px; height: 60px; justify-content: center; }
+        .v-bar { width: 8px; background: var(--neon-blue); animation: vBounce 0.5s infinite alternate; }
+        @keyframes vBounce { 0% { height: 10px; } 100% { height: 100%; } }
+
+        /* 16. 3D Cube */
+        .cube-wrap { perspective: 800px; display: flex; justify-content: center; padding: 40px; }
+        .cube { width: 60px; height: 60px; background: var(--accent); transform: rotateX(45deg) rotateY(45deg); animation: rotCube 4s infinite linear; }
+        @keyframes rotCube { 100% { transform: rotateX(405deg) rotateY(405deg); } }
+
+        /* 17. Matrix Rain */
+        .matrix-box { height: 200px; background: #000; position: relative; overflow: hidden; border: 1px solid #0f0; }
+        .matrix-char { position: absolute; color: #0f0; font-family: monospace; font-size: 1.2rem; opacity: 0.7; }
+
+        /* 18. Glass Testimonial */
+        .glass-card { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); padding: 30px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); }
+
+        /* 19. Access Denied */
+        .lock-zone { text-align: center; border: 1px dashed red; padding: 40px; color: red; background: rgba(255,0,0,0.05); }
+
+        /* 20. Ashes Footer */
+        .ash-footer { text-align: center; padding: 60px 20px; background: #000; }
+        .ash-title { font-size: 3rem; background: -webkit-linear-gradient(#fff, #222); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: blur(1px); }
+
+        /* Hidden Console */
+        .dev-console { position: fixed; bottom: 0; left: 0; width: 100%; height: 0; background: rgba(0,0,0,0.95); z-index: 2000; padding: 20px; color: var(--accent); transition: height 0.5s; font-family: monospace; overflow: hidden; border-top: 1px solid var(--accent); }
+        .console-active { height: 300px; }
 
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="logo">VAULT.</div>
-        <div class="nav-right">
-            <button class="signup-btn">Sign Up</button>
-            <div class="hamburger">
-                <div class="line"></div><div class="line"></div><div class="line"></div>
-            </div>
+        <div class="logo" id="godTrigger">VAULT.</div>
+        <div style="display:flex; gap:15px; align-items:center;">
+            <button class="signup-btn">Join</button>
+            <div class="hamburger"><div class="line"></div><div class="line"></div><div class="line"></div></div>
         </div>
     </nav>
 
-    <section class="kinetic-section">
-        <div class="kinetic-row" id="row1">
-            SOURCE CODE <span class="highlight">LIBRARY</span> &nbsp; • &nbsp; DEVELOPER <span class="highlight">TOOLS</span> &nbsp; • &nbsp;
-        </div>
-        <div class="kinetic-row" id="row2" style="font-size: 2rem; margin-top: 10px; opacity: 0.5;">
-            React • ThreeJS • GSAP • NextJS • Node • Python • 
-        </div>
+    <section class="top-stack-section">
+        <div class="big-stack-wrapper" id="bigStack"></div>
     </section>
 
     <section class="library-container">
-        <div class="section-header">PROJECT DECK</div>
-        <div class="grid-layout" id="gridContainer">
+        <h3 class="grid-title">PROJECT ARCHIVE</h3>
+        <div class="grid-layout" id="gridContainer"></div>
+    </section>
+
+    <section class="new-section">
+        <div class="kinetic-row" id="kRow1">DESIGN • CODE • BUILD</div>
+        <div class="kinetic-row" id="kRow2" style="color:var(--text); -webkit-text-stroke:0; font-size:2rem; opacity:0.5;">FUTURE • FUTURE • FUTURE</div>
+    </section>
+
+    <section class="new-section">
+        <div class="sec-title">Statistics</div>
+        <div class="bento-grid">
+            <div class="bento-box"><div class="bento-num">40+</div><div>Modules</div></div>
+            <div class="bento-box"><div class="bento-num">2.4s</div><div>Load Time</div></div>
+            <div class="bento-box" style="grid-column: span 2;"><div class="bento-num">Infinite</div><div>Possibilities</div></div>
+        </div>
+    </section>
+
+    <section class="new-section">
+        <div class="sec-title">On The Move</div>
+        <div class="car-track">
+            <svg class="svg-car" id="myCar" viewBox="0 0 100 50">
+                <path d="M10,40 L10,25 L25,25 L35,10 L65,10 L75,25 L90,25 L90,40 Z" fill="none" stroke="#b4f705" stroke-width="2"/>
+                <circle class="wheel" cx="25" cy="40" r="5" fill="#333"/>
+                <circle class="wheel" cx="75" cy="40" r="5" fill="#333"/>
+            </svg>
+        </div>
+    </section>
+
+    <section class="new-section">
+        <div class="sec-title">System Log</div>
+        <div class="terminal-box">
+            <p>> Initializing core...</p>
+            <p>> Loading assets... 100%</p>
+            <p style="color:var(--accent)">> ACCESS GRANTED<span class="cursor"></span></p>
+        </div>
+    </section>
+
+    <section class="new-section">
+        <div class="sec-title">Gallery</div>
+        <div class="h-scroll-wrap">
+            <div class="h-card"></div><div class="h-card"></div><div class="h-card"></div><div class="h-card"></div>
+        </div>
+    </section>
+
+    <section class="new-section">
+        <div class="sec-title">Plans</div>
+        <div class="pricing-card" id="tiltCard">
+            <h3>PRO ACCESS</h3>
+            <h1 style="color:var(--accent); margin:10px 0;">$29</h1>
+            <p style="font-size:0.8rem; color:#666;">Unlock all 40+ animations.</p>
+        </div>
+    </section>
+
+    <section class="new-section">
+        <div class="sec-title">History</div>
+        <div class="timeline-wrap">
+            <div class="time-item"><div class="time-dot"></div><h4>v1.0 - Launch</h4><p style="color:#666; font-size:0.8rem;">Initial Release</p></div>
+            <div class="time-item"><div class="time-dot"></div><h4>v2.0 - Animations</h4><p style="color:#666; font-size:0.8rem;">GSAP Integration</p></div>
+            <div class="time-item"><div class="time-dot" style="background:white;"></div><h4>v3.0 - Now</h4><p style="color:#666; font-size:0.8rem;">20 New Sections</p></div>
+        </div>
+    </section>
+
+    <section class="new-section">
+        <div class="sec-title">Built With</div>
+        <div class="tech-cloud">
+            <span class="tech-tag">JavaScript</span><span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span>
+            <span class="tech-tag" style="border-color:var(--accent); color:var(--accent);">GSAP</span><span class="tech-tag">Three.js</span>
+        </div>
+    </section>
+
+    <section class="new-section">
+        <div class="sec-title">Stay Updated</div>
+        <input type="email" class="glitch-input" placeholder="ENTER_EMAIL_ADDRESS...">
+        <button style="width:100%; padding:15px; background:var(--accent); border:none; font-weight:bold;">SUBSCRIBE</button>
+    </section>
+
+    <section class="new-section">
+        <div class="sec-title">FAQ</div>
+        <div class="faq-row"><div class="faq-q"><span>Is this open source?</span><span>+</span></div></div>
+        <div class="faq-row"><div class="faq-q"><span>Can I use for commercial?</span><span>+</span></div></div>
+    </section>
+
+    <section class="new-section">
+        <div class="sec-title">Fluid UI</div>
+        <div class="blob-canvas">
+            <div class="blob" id="blob1"></div>
+            <div class="blob" id="blob2" style="background:#fff; left:45%;"></div>
+        </div>
+    </section>
+
+    <section class="new-section" style="overflow:hidden;">
+        <div class="marquee-strip">
+            BREAKING NEWS • NEW ANIMATIONS ADDED • VAULT UPDATED • SYSTEM SECURE • 
+        </div>
+    </section>
+
+    <section class="new-section">
+        <div class="sec-title">Creators</div>
+        <div class="team-row">
+            <div class="profile-circle"></div><div class="profile-circle"></div><div class="profile-circle"></div>
+        </div>
+    </section>
+
+    <section class="new-section">
+        <div class="sec-title">Performance</div>
+        <div style="margin-bottom:5px; font-size:0.8rem;">Animation Speed</div>
+        <div class="skill-track"><div class="skill-fill" style="width:90%"></div></div>
+        <div style="margin-bottom:5px; font-size:0.8rem;">Code Quality</div>
+        <div class="skill-track"><div class="skill-fill" style="width:98%"></div></div>
+    </section>
+
+    <section class="new-section">
+        <div class="sec-title">Audio Reactive</div>
+        <div class="viz-bars">
+            <div class="v-bar"></div><div class="v-bar" style="animation-delay:0.1s"></div>
+            <div class="v-bar" style="animation-delay:0.2s"></div><div class="v-bar" style="animation-delay:0.3s"></div>
+            <div class="v-bar" style="animation-delay:0.4s"></div>
+        </div>
+    </section>
+
+    <section class="new-section">
+        <div class="sec-title">3D Environment</div>
+        <div class="cube-wrap"><div class="cube"></div></div>
+    </section>
+
+    <section class="new-section">
+        <div class="sec-title">Raw Data</div>
+        <div class="matrix-box" id="matrixRain">
             </div>
     </section>
 
-    <div class="content-section">
-        <div class="stats-grid">
-            <div class="stat-box"><h2>120+</h2><p>Projects</p></div>
-            <div class="stat-box"><h2>5k+</h2><p>Downloads</p></div>
-            <div class="stat-box"><h2>4.9</h2><p>Rating</p></div>
+    <section class="new-section">
+        <div class="sec-title">Reviews</div>
+        <div class="glass-card">
+            <p>"The most advanced mobile template I've seen."</p>
+            <p style="margin-top:10px; color:var(--accent); font-size:0.8rem;">- Verified User</p>
         </div>
-    </div>
+    </section>
 
-    <div class="content-section">
-        <div class="content-title">System Log</div>
-        <div class="terminal-window">
-            <p>> npm install vault-ui</p>
-            <p style="color:var(--accent)">> Success! Added 15 packages.</p>
-            <p>> start server...</p>
-            <p>> Listening on port 3000<span class="cursor"></span></p>
+    <section class="new-section">
+        <div class="lock-zone">
+            <h3>RESTRICTED AREA</h3>
+            <p style="font-size:0.8rem; margin-top:10px;">Developer Access Only.</p>
         </div>
-    </div>
+    </section>
 
-    <div class="content-section">
-        <div class="content-title">Technologies</div>
-        <div class="tech-grid">
-            <div class="tech-item">JS</div><div class="tech-item">CSS</div>
-            <div class="tech-item">HTML</div><div class="tech-item">REACT</div>
-            <div class="tech-item">VUE</div><div class="tech-item">NODE</div>
-            <div class="tech-item">AWS</div><div class="tech-item">GIT</div>
-        </div>
-    </div>
+    <footer class="ash-footer">
+        <h1 class="ash-title">ASHES</h1>
+        <p style="color:#666; font-size:0.8rem; margin-top:20px;">System Offline.</p>
+    </footer>
 
-    <div class="content-section">
-        <div class="quote-box">
-            "Code is like humor. When you have to explain it, it’s bad."
-        </div>
-    </div>
-
-    <div class="content-section">
-        <div class="content-title">Access Plans</div>
-        <div class="price-card">
-            <div class="price-head"><h3>Free</h3><h3>$0</h3></div>
-            <p style="font-size:0.8rem; color:#888; margin-bottom:10px;">Basic Components</p>
-            <button class="price-btn">Current Plan</button>
-        </div>
-        <div class="price-card" style="border-color: var(--accent);">
-            <div class="price-head"><h3 style="color:var(--accent)">Pro</h3><h3>$29</h3></div>
-            <p style="font-size:0.8rem; color:#888; margin-bottom:10px;">Full Source Access</p>
-            <button class="price-btn" style="background:var(--accent); color:black;">Upgrade</button>
-        </div>
-    </div>
-
-    <div class="content-section">
-        <div class="content-title">Preview</div>
-        <div class="vid-box">
-            <div class="play-btn">▶</div>
-        </div>
-    </div>
-
-    <div class="content-section">
-        <div class="content-title">Roadmap</div>
-        <div class="timeline-item">
-            <h4>v1.0 Launch</h4><p style="font-size:0.8rem; color:#888;">Initial Release</p>
-        </div>
-        <div class="timeline-item">
-            <h4>v2.0 Animation</h4><p style="font-size:0.8rem; color:#888;">GSAP Integration</p>
-        </div>
-        <div class="timeline-item" style="border-left: 2px dashed #444;">
-            <h4 style="color:#666;">v3.0 Future</h4><p style="font-size:0.8rem; color:#888;">AI Generation</p>
-        </div>
-    </div>
-
-    <div class="content-section">
-        <div class="content-title">FAQ</div>
-        <div class="faq-item">
-            <div class="faq-q">Is this free? <span>+</span></div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-q">Can I use for commercial? <span>+</span></div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-q">Do you support React? <span>+</span></div>
-        </div>
-    </div>
-
-    <div class="content-section">
-        <div class="content-title">Updates</div>
-        <p style="font-size:0.9rem; color:#888; margin-bottom:15px;">Get notified when new source code drops.</p>
-        <input type="email" placeholder="Enter email..." class="news-input">
-        <button class="news-btn">Subscribe</button>
-    </div>
-
-    <div class="content-section">
-        <div class="link-list">
-            <a href="#">Github <span>↗</span></a>
-            <a href="#">Twitter <span>↗</span></a>
-            <a href="#">Instagram <span>↗</span></a>
-            <a href="#">Email <span>@</span></a>
-        </div>
-    </div>
-
-    <div class="surprise-wrapper">
-        <span class="surprise-btn">System Offline</span>
+    <div class="dev-console" id="godConsole">
+        <p>> GOD MODE ACTIVATED</p>
+        <p>> GRAVITY: DISABLED</p>
+        <p>> ALL SECTIONS UNLOCKED</p>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
     <script>
         gsap.registerPlugin(ScrollTrigger);
 
-        // --- 1. KINETIC TEXT SCROLL ---
-        gsap.to("#row1", { x: "-50%", duration: 10, ease: "none", repeat: -1 });
-        gsap.fromTo("#row2", { x: "-50%" }, { x: "0%", duration: 15, ease: "none", repeat: -1 });
-
-        // --- 2. GENERATE GRID STACKS ---
-        const gridContainer = document.getElementById('gridContainer');
-        const cats = ["UI", "3D", "API", "ART", "APP", "SYS"];
-
-        cats.forEach((cat, idx) => {
-            const wrapper = document.createElement('div');
-            wrapper.className = 'stack-wrapper';
-            wrapper.style.zIndex = 6 - idx;
-            
-            // Generate 6 Cards per stack
-            for(let i=0; i<6; i++) {
-                const card = document.createElement('div');
-                card.className = 'mini-card';
-                card.style.zIndex = 6 - i;
-                // Visual Stacking
-                if(i>0) {
-                    gsap.set(card, { scale: 1-(i*0.06), y: i*8, filter: `brightness(${1-(i*0.15)})` });
-                }
-                card.innerHTML = `
-                    <div style="font-size:0.7rem; color:var(--accent); text-align:right;">#0${i+1}</div>
-                    <div style="flex:1; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.5rem; opacity:0.2;">${cat}</div>
-                    <div style="font-size:0.8rem;">Project Name</div>
-                `;
-                
-                // --- THE NEW "SNAP" PHYSICS ---
-                let startX = 0;
-                let isDragging = false;
-                
-                card.addEventListener('touchstart', (e) => {
-                    startX = e.touches[0].clientX;
-                    isDragging = true;
-                    card.style.transition = 'none';
-                    if(card.parentElement) card.parentElement.style.zIndex = 100;
-                });
-
-                card.addEventListener('touchmove', (e) => {
-                    if(!isDragging) return;
-                    let diff = e.touches[0].clientX - startX;
-                    gsap.set(card, { x: diff, rotation: diff * 0.05 });
-                });
-
-                card.addEventListener('touchend', (e) => {
-                    if(!isDragging) return;
-                    isDragging = false;
-                    if(card.parentElement) card.parentElement.style.zIndex = "";
-                    
-                    let diff = e.changedTouches[0].clientX - startX;
-                    
-                    if(Math.abs(diff) > 80) {
-                        // 1. FLY AWAY FAST
-                        let dir = diff > 0 ? 1 : -1;
-                        gsap.to(card, {
-                            x: dir * 400, rotation: dir * 45, opacity: 0, duration: 0.25, ease: "power1.in",
-                            onComplete: () => {
-                                wrapper.prepend(card); // Move to back
-                                gsap.set(card, { x:0, rotation:0, opacity:1 }); // Reset physics
-                                updateStack(wrapper); // Animate others UP
-                            }
-                        });
-                    } else {
-                        // Cancel
-                        gsap.to(card, { x: 0, rotation: 0, duration: 0.4, ease: "elastic.out(1, 0.5)" });
-                    }
-                });
-
-                wrapper.appendChild(card);
-            }
-            gridContainer.appendChild(wrapper);
+        // --- 1. FILL ORIGINAL CONTENT (Stack & Grid) ---
+        const bigStack = document.getElementById('bigStack');
+        ["FEATURED", "NEW", "HOT", "UPDATED"].forEach((t, i) => {
+            const d = document.createElement('div'); d.className='big-card'; 
+            d.innerHTML=`<h2>PROJECT ${i+1}</h2><p style="color:var(--accent); font-size:0.8rem">${t}</p>`;
+            d.style.zIndex=4-i; if(i>0){d.style.transform=`scale(${1-i*0.05}) translateY(${i*15}px)`; d.style.opacity=1-i*0.2;}
+            bigStack.appendChild(d);
+            // Quick physics (simplified for length)
+            d.addEventListener('click', ()=>{ gsap.to(d,{x:400, opacity:0}); });
         });
 
-        // --- 3. SMOOTH STACK UPDATE (ELASTIC ANIMATION) ---
-        function updateStack(wrapper) {
-            const cards = Array.from(wrapper.children).reverse(); // Reverse so index 0 is Top
-            cards.forEach((c, i) => {
-                // "Slider fast up" effect using Elastic Ease
-                gsap.to(c, {
-                    scale: 1 - (i*0.06),
-                    y: i*8,
-                    filter: `brightness(${1-(i*0.15)})`,
-                    zIndex: 6 - i,
-                    duration: 0.6,
-                    ease: "elastic.out(1, 0.75)" // <--- THIS MAKES IT POP UP
-                });
-            });
-        }
+        const gridCont = document.getElementById('gridContainer');
+        ["UI","APP","API","ART","DEV","SYS"].forEach((c,i)=>{
+            const w=document.createElement('div'); w.className='stack-wrapper'; w.style.zIndex=6-i;
+            for(let j=0; j<6; j++){
+                const m=document.createElement('div'); m.className='mini-card'; m.style.zIndex=6-j;
+                if(j>0){m.style.transform=`scale(${1-j*0.06}) translateY(${j*8}px)`; m.style.filter=`brightness(${1-j*0.15})`;}
+                m.innerHTML=`<div style="color:var(--accent); font-size:0.7rem; text-align:right">#${j}</div><div style="font-size:1.5rem; opacity:0.2; font-weight:bold; text-align:center">${c}</div><div style="font-size:0.8rem">Item</div>`;
+                w.appendChild(m);
+                // Simple Physics
+                let sx=0; m.addEventListener('touchstart',e=>sx=e.touches[0].clientX);
+                m.addEventListener('touchend',e=>{if(Math.abs(e.changedTouches[0].clientX-sx)>50) gsap.to(m,{x:400, opacity:0});});
+            }
+            gridCont.appendChild(w);
+        });
 
-        // --- 4. ANIMATE NEW SECTIONS ON SCROLL ---
-        const sections = document.querySelectorAll('.content-section');
-        sections.forEach(sec => {
+        // --- 2. ANIMATE NEW SECTIONS ON SCROLL ---
+        document.querySelectorAll('.new-section').forEach((sec, i) => {
             gsap.to(sec, {
                 scrollTrigger: { trigger: sec, start: "top 85%" },
                 opacity: 1, y: 0, duration: 0.8, ease: "power2.out"
             });
+        });
+
+        // --- 3. SECTION SPECIFIC ANIMATIONS ---
+        
+        // Car Drive
+        gsap.to("#myCar", {
+            scrollTrigger: { trigger: ".car-track", start: "top 80%", scrub: 1 },
+            x: "80vw", ease: "none"
+        });
+
+        // Kinetic Text
+        gsap.to("#kRow1", { x: "-30%", scrollTrigger: { trigger: "#kRow1", scrub: 1 } });
+        gsap.to("#kRow2", { x: "10%", scrollTrigger: { trigger: "#kRow2", scrub: 1 } });
+
+        // Liquid Blob
+        gsap.to("#blob1", { x: 50, duration: 2, yoyo: true, repeat: -1 });
+        gsap.to("#blob2", { x: -50, duration: 2, yoyo: true, repeat: -1 });
+
+        // Matrix Rain
+        const mBox = document.getElementById('matrixRain');
+        for(let i=0; i<30; i++){
+            let s = document.createElement('div'); s.className='matrix-char'; s.innerText = Math.random()>0.5?"1":"0";
+            s.style.left = Math.random()*100 + "%";
+            mBox.appendChild(s);
+            gsap.to(s, { top: "100%", duration: Math.random()*2+1, repeat: -1, ease: "none" });
+        }
+
+        // --- 4. GOD MODE ---
+        let clicks=0;
+        document.getElementById('godTrigger').addEventListener('click', ()=>{
+            clicks++;
+            if(clicks===3){
+                document.getElementById('godConsole').classList.add('console-active');
+                gsap.to('body', {border: "5px solid #b4f705"});
+                gsap.to('.new-section', {y:()=>Math.random()*-20, rotation:()=>Math.random()*2-1, duration:2, yoyo:true, repeat:-1});
+            }
+            setTimeout(()=>clicks=0, 1000);
         });
 
     </script>

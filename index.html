@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SOURCE VAULT | GRID STACKS</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <title>SOURCE VAULT | EXPANDED</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
     
     <style>
-        /* --- 1. CORE AESTHETICS --- */
+        /* --- CORE VARS --- */
         :root {
             --bg: #050505;
-            --card-front: #181818;
-            --card-border: #333;
+            --card-front: #141414;
+            --card-border: #2a2a2a;
             --accent: #b4f705;
             --text: #e0e0e0;
+            --glass: rgba(20,20,20,0.8);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -23,117 +24,136 @@
             color: var(--text);
             font-family: 'Space Grotesk', sans-serif;
             overflow-x: hidden;
+            padding-bottom: 100px;
         }
 
-        /* --- 2. NAVIGATION --- */
+        /* --- 1. NAV --- */
         nav {
             padding: 20px 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
-            background: rgba(5,5,5,0.8);
-            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0; width: 100%;
+            background: var(--glass);
+            backdrop-filter: blur(12px);
             z-index: 1000;
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
         .logo { font-weight: 700; font-size: 1.2rem; letter-spacing: 1px; }
-        .hamburger { width: 30px; cursor: pointer; display: flex; flex-direction: column; gap: 6px; }
+        .nav-right { display: flex; align-items: center; gap: 20px; }
+        .signup-btn {
+            background: transparent; border: 1px solid var(--accent); color: var(--accent);
+            padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; text-transform: uppercase;
+            cursor: pointer; transition: 0.2s;
+        }
+        .signup-btn:active { background: var(--accent); color: black; }
+        .hamburger { width: 30px; display: flex; flex-direction: column; gap: 6px; }
         .line { width: 100%; height: 2px; background: white; }
 
-        /* --- 3. NEW TOP ELEMENT (Profile Header) --- */
-        .profile-header {
-            padding: 30px 20px;
+        /* --- 2. NEW TOP SECTION: KINETIC SCROLL --- */
+        .kinetic-section {
+            padding-top: 100px;
+            padding-bottom: 50px;
+            overflow: hidden;
+            border-bottom: 1px solid #222;
+        }
+        .kinetic-row {
             display: flex;
-            align-items: center;
-            gap: 20px;
-            border-bottom: 1px dashed #222;
+            white-space: nowrap;
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.1;
+            color: #222;
+            -webkit-text-stroke: 1px #444;
+            text-transform: uppercase;
         }
-        .avatar {
-            width: 60px; height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #222, #000);
-            border: 2px solid var(--accent);
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            font-weight: bold;
-            color: var(--accent);
-        }
-        .stats { flex: 1; }
-        .stats h2 { font-size: 1.2rem; margin-bottom: 5px; }
-        .stats p { font-size: 0.8rem; color: #666; }
-        .tag-row { display: flex; gap: 10px; margin-top: 5px; }
-        .tag { font-size: 0.7rem; padding: 2px 8px; border: 1px solid #333; border-radius: 4px; color: #888; }
-
-        /* --- 4. THE GRID OF STACKS --- */
-        .library-container {
-            padding: 30px 20px;
-        }
+        .highlight { color: var(--accent); -webkit-text-stroke: 0; }
         
+        /* --- 3. MAIN PROJECT GRID (2x3) --- */
+        .library-container { padding: 40px 20px; }
+        .section-header { 
+            font-size: 0.9rem; letter-spacing: 2px; color: #666; 
+            margin-bottom: 30px; display: flex; align-items: center; gap: 10px;
+        }
+        .section-header::before { content:''; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; }
+
         .grid-layout {
             display: grid;
-            grid-template-columns: 1fr 1fr; /* 2 Columns */
-            grid-template-rows: repeat(3, auto); /* 3 Rows */
-            gap: 20px 15px; /* Row Gap, Col Gap */
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: repeat(3, auto);
+            gap: 20px 15px;
         }
-
-        /* The Wrapper for each Grid Item */
         .stack-wrapper {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 3/4; /* Shape of each grid item */
-            perspective: 1000px;
-            z-index: 1; /* Default */
+            position: relative; width: 100%; aspect-ratio: 3/4;
+            perspective: 1000px; z-index: 1;
         }
-
-        /* The Individual Cards inside the Stack */
         .mini-card {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--card-front);
             border: 1px solid var(--card-border);
             border-radius: 15px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
             padding: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            display: flex; flex-direction: column; justify-content: space-between;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             transform-origin: center bottom;
-            cursor: grab;
-            /* Important: Allow card to fly out of its grid cell */
             will-change: transform;
         }
 
-        .card-content { flex: 1; pointer-events: none; }
-        .card-icon { 
-            width: 30px; height: 30px; background: #222; 
-            border-radius: 8px; margin-bottom: 10px; 
-        }
-        .card-title { font-size: 0.9rem; font-weight: bold; line-height: 1.2; }
-        .card-sub { font-size: 0.7rem; color: #666; margin-top: 5px; }
-        
-        .card-number {
-            position: absolute; top: 10px; right: 10px;
-            font-size: 0.7rem; color: var(--accent); opacity: 0.5;
-        }
-
-        /* --- 5. SURPRISE FOOTER --- */
-        .surprise-wrapper {
+        /* --- 4. THE 10 NEW SECTIONS --- */
+        .content-section {
             padding: 40px 20px;
-            display: flex; 
-            flex-direction: column; 
-            align-items: center;
+            border-top: 1px solid #1a1a1a;
+            opacity: 0; /* Hidden for scroll animation */
+            transform: translateY(30px);
         }
-        .surprise-btn {
-            border: 1px solid #333; padding: 15px 30px;
-            border-radius: 30px; color: #666; cursor: pointer;
-            text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;
-        }
-        .hidden-footer { display: none; margin-top: 20px; text-align: center; }
-        .hidden-footer h2 { font-size: 2rem; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
+        .content-title { font-size: 1.5rem; margin-bottom: 20px; color: #fff; }
+
+        /* 1. Stats */
+        .stats-grid { display: flex; justify-content: space-between; }
+        .stat-box h2 { font-size: 2.5rem; color: var(--accent); line-height: 1; }
+        .stat-box p { font-size: 0.8rem; color: #666; }
+
+        /* 2. Tech Stack */
+        .tech-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .tech-item { background: #111; padding: 15px; text-align: center; border-radius: 8px; font-size: 0.7rem; border: 1px solid #222; }
+
+        /* 3. Terminal */
+        .terminal-window { background: #111; border: 1px solid #333; border-radius: 8px; padding: 15px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #bbb; }
+        .cursor { display: inline-block; width: 8px; height: 15px; background: var(--accent); animation: blink 1s infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* 4. Pricing */
+        .price-card { background: #111; padding: 20px; border-radius: 15px; border: 1px solid #333; margin-bottom: 15px; }
+        .price-head { display: flex; justify-content: space-between; margin-bottom: 15px; }
+        .price-btn { width: 100%; padding: 10px; background: #222; color: #fff; border: none; border-radius: 8px; margin-top: 10px; }
+
+        /* 5. Timeline */
+        .timeline-item { border-left: 2px solid #333; padding-left: 20px; margin-bottom: 20px; position: relative; }
+        .timeline-item::before { content:''; position:absolute; left: -6px; top: 0; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; }
+
+        /* 6. FAQ */
+        .faq-item { border-bottom: 1px solid #222; padding: 15px 0; }
+        .faq-q { display: flex; justify-content: space-between; font-weight: 500; }
+        .faq-a { font-size: 0.85rem; color: #888; margin-top: 10px; display: none; }
+
+        /* 7. Quote */
+        .quote-box { font-size: 1.5rem; font-style: italic; color: #666; border-left: 4px solid var(--accent); padding-left: 20px; }
+
+        /* 8. Video Placeholder */
+        .vid-box { width: 100%; aspect-ratio: 16/9; background: #111; display: flex; align-items: center; justify-content: center; border-radius: 15px; border: 1px solid #333; }
+        .play-btn { width: 50px; height: 50px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: black; }
+
+        /* 9. Newsletter */
+        .news-input { width: 100%; padding: 15px; background: #111; border: 1px solid #333; color: white; border-radius: 8px; margin-bottom: 10px; }
+        .news-btn { width: 100%; padding: 15px; background: var(--accent); border: none; font-weight: bold; border-radius: 8px; }
+
+        /* 10. Links */
+        .link-list a { display: block; padding: 15px; border-bottom: 1px solid #222; color: #aaa; text-decoration: none; display: flex; justify-content: space-between; }
+
+        /* --- SURPRISE FOOTER --- */
+        .surprise-wrapper { text-align: center; padding: 50px 0; }
+        .surprise-btn { border: 1px solid #333; padding: 15px 40px; border-radius: 30px; color: #666; text-transform: uppercase; letter-spacing: 2px; }
 
     </style>
 </head>
@@ -141,206 +161,232 @@
 
     <nav>
         <div class="logo">VAULT.</div>
-        <div class="hamburger">
-            <div class="line"></div>
-            <div class="line"></div>
-            <div class="line"></div>
+        <div class="nav-right">
+            <button class="signup-btn">Sign Up</button>
+            <div class="hamburger">
+                <div class="line"></div><div class="line"></div><div class="line"></div>
+            </div>
         </div>
     </nav>
 
-    <header class="profile-header">
-        <div class="avatar">DV</div>
-        <div class="stats">
-            <h2>Dev_Vault</h2>
-            <p>Full Stack Library</p>
-            <div class="tag-row">
-                <span class="tag">GSAP</span>
-                <span class="tag">React</span>
-                <span class="tag">3D</span>
-            </div>
+    <section class="kinetic-section">
+        <div class="kinetic-row" id="row1">
+            SOURCE CODE <span class="highlight">LIBRARY</span> &nbsp; • &nbsp; DEVELOPER <span class="highlight">TOOLS</span> &nbsp; • &nbsp;
         </div>
-    </header>
+        <div class="kinetic-row" id="row2" style="font-size: 2rem; margin-top: 10px; opacity: 0.5;">
+            React • ThreeJS • GSAP • NextJS • Node • Python • 
+        </div>
+    </section>
 
     <section class="library-container">
+        <div class="section-header">PROJECT DECK</div>
         <div class="grid-layout" id="gridContainer">
             </div>
     </section>
 
+    <div class="content-section">
+        <div class="stats-grid">
+            <div class="stat-box"><h2>120+</h2><p>Projects</p></div>
+            <div class="stat-box"><h2>5k+</h2><p>Downloads</p></div>
+            <div class="stat-box"><h2>4.9</h2><p>Rating</p></div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-title">System Log</div>
+        <div class="terminal-window">
+            <p>> npm install vault-ui</p>
+            <p style="color:var(--accent)">> Success! Added 15 packages.</p>
+            <p>> start server...</p>
+            <p>> Listening on port 3000<span class="cursor"></span></p>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-title">Technologies</div>
+        <div class="tech-grid">
+            <div class="tech-item">JS</div><div class="tech-item">CSS</div>
+            <div class="tech-item">HTML</div><div class="tech-item">REACT</div>
+            <div class="tech-item">VUE</div><div class="tech-item">NODE</div>
+            <div class="tech-item">AWS</div><div class="tech-item">GIT</div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="quote-box">
+            "Code is like humor. When you have to explain it, it’s bad."
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-title">Access Plans</div>
+        <div class="price-card">
+            <div class="price-head"><h3>Free</h3><h3>$0</h3></div>
+            <p style="font-size:0.8rem; color:#888; margin-bottom:10px;">Basic Components</p>
+            <button class="price-btn">Current Plan</button>
+        </div>
+        <div class="price-card" style="border-color: var(--accent);">
+            <div class="price-head"><h3 style="color:var(--accent)">Pro</h3><h3>$29</h3></div>
+            <p style="font-size:0.8rem; color:#888; margin-bottom:10px;">Full Source Access</p>
+            <button class="price-btn" style="background:var(--accent); color:black;">Upgrade</button>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-title">Preview</div>
+        <div class="vid-box">
+            <div class="play-btn">▶</div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-title">Roadmap</div>
+        <div class="timeline-item">
+            <h4>v1.0 Launch</h4><p style="font-size:0.8rem; color:#888;">Initial Release</p>
+        </div>
+        <div class="timeline-item">
+            <h4>v2.0 Animation</h4><p style="font-size:0.8rem; color:#888;">GSAP Integration</p>
+        </div>
+        <div class="timeline-item" style="border-left: 2px dashed #444;">
+            <h4 style="color:#666;">v3.0 Future</h4><p style="font-size:0.8rem; color:#888;">AI Generation</p>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-title">FAQ</div>
+        <div class="faq-item">
+            <div class="faq-q">Is this free? <span>+</span></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">Can I use for commercial? <span>+</span></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">Do you support React? <span>+</span></div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-title">Updates</div>
+        <p style="font-size:0.9rem; color:#888; margin-bottom:15px;">Get notified when new source code drops.</p>
+        <input type="email" placeholder="Enter email..." class="news-input">
+        <button class="news-btn">Subscribe</button>
+    </div>
+
+    <div class="content-section">
+        <div class="link-list">
+            <a href="#">Github <span>↗</span></a>
+            <a href="#">Twitter <span>↗</span></a>
+            <a href="#">Instagram <span>↗</span></a>
+            <a href="#">Email <span>@</span></a>
+        </div>
+    </div>
+
     <div class="surprise-wrapper">
-        <div class="surprise-btn">Open Surprise</div>
-        <footer class="hidden-footer">
-            <h2>ASHES</h2>
-            <p>System Offline.</p>
-        </footer>
+        <span class="surprise-btn">System Offline</span>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script>
-        // --- 1. DATA CONFIG (6 Projects, 6 Variations each) ---
-        const projectCategories = [
-            { title: "UI Components", color: "#b4f705" },
-            { title: "Animation Lib", color: "#05f7ea" },
-            { title: "Backend API", color: "#f7055e" },
-            { title: "3D Models", color: "#f79605" },
-            { title: "Dashboards", color: "#a105f7" },
-            { title: "Auth Systems", color: "#f7f7f7" }
-        ];
+        gsap.registerPlugin(ScrollTrigger);
 
+        // --- 1. KINETIC TEXT SCROLL ---
+        gsap.to("#row1", { x: "-50%", duration: 10, ease: "none", repeat: -1 });
+        gsap.fromTo("#row2", { x: "-50%" }, { x: "0%", duration: 15, ease: "none", repeat: -1 });
+
+        // --- 2. GENERATE GRID STACKS ---
         const gridContainer = document.getElementById('gridContainer');
+        const cats = ["UI", "3D", "API", "ART", "APP", "SYS"];
 
-        // --- 2. GENERATE THE GRID OF STACKS ---
-        projectCategories.forEach((cat, gridIndex) => {
-            
-            // Create the Wrapper (One Grid Cell)
+        cats.forEach((cat, idx) => {
             const wrapper = document.createElement('div');
             wrapper.className = 'stack-wrapper';
-            wrapper.style.zIndex = 6 - gridIndex; // Layering fix
-
-            // Create 6 Cards INSIDE this wrapper
-            for (let i = 0; i < 6; i++) {
+            wrapper.style.zIndex = 6 - idx;
+            
+            // Generate 6 Cards per stack
+            for(let i=0; i<6; i++) {
                 const card = document.createElement('div');
                 card.className = 'mini-card';
-                card.style.zIndex = 6 - i; // Stack order (Top is 6)
-                
-                // Visual Styling for depth
-                // Lower cards are smaller and darker initially
-                if(i > 0) {
-                    card.style.transform = `scale(${1 - (i * 0.05)}) translateY(${i * 8}px)`;
-                    card.style.filter = `brightness(${1 - (i * 0.15)})`;
+                card.style.zIndex = 6 - i;
+                // Visual Stacking
+                if(i>0) {
+                    gsap.set(card, { scale: 1-(i*0.06), y: i*8, filter: `brightness(${1-(i*0.15)})` });
                 }
-
                 card.innerHTML = `
-                    <div class="card-number">#${gridIndex+1}.${i+1}</div>
-                    <div class="card-content">
-                        <div class="card-icon" style="background:${i === 0 ? cat.color : '#222'}"></div>
-                        <div class="card-title">${cat.title}</div>
-                        <div class="card-sub">Variant 0${i+1}</div>
-                    </div>
+                    <div style="font-size:0.7rem; color:var(--accent); text-align:right;">#0${i+1}</div>
+                    <div style="flex:1; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.5rem; opacity:0.2;">${cat}</div>
+                    <div style="font-size:0.8rem;">Project Name</div>
                 `;
                 
-                wrapper.appendChild(card);
-            }
-            
-            gridContainer.appendChild(wrapper);
-        });
-
-        // --- 3. SWIPE LOGIC FOR *EVERY* STACK ---
-        const allWrappers = document.querySelectorAll('.stack-wrapper');
-
-        allWrappers.forEach(wrapper => {
-            const cards = Array.from(wrapper.querySelectorAll('.mini-card'));
-            
-            cards.forEach((card, index) => {
-                // We only attach physics to cards. 
-                // But conceptually, you can only drag the TOP visible card.
-                
+                // --- THE NEW "SNAP" PHYSICS ---
                 let startX = 0;
                 let isDragging = false;
-
+                
                 card.addEventListener('touchstart', (e) => {
-                    // Check if this card is currently the top one visually
-                    // We can check this by seeing if its scale is 1 (simplest way based on our layout logic)
-                    // Or check if previous siblings are gone.
-                    // For simplicity: We allow dragging any card, but visual z-index hides lower ones.
-                    
                     startX = e.touches[0].clientX;
                     isDragging = true;
                     card.style.transition = 'none';
-                    // Bring wrapper to front so card doesn't clip behind neighbor grid items
-                    wrapper.style.zIndex = 100; 
+                    if(card.parentElement) card.parentElement.style.zIndex = 100;
                 });
 
                 card.addEventListener('touchmove', (e) => {
                     if(!isDragging) return;
-                    const currentX = e.touches[0].clientX;
-                    const diff = currentX - startX;
-                    
-                    gsap.set(card, {
-                        x: diff,
-                        rotation: diff * 0.1
-                    });
+                    let diff = e.touches[0].clientX - startX;
+                    gsap.set(card, { x: diff, rotation: diff * 0.05 });
                 });
 
                 card.addEventListener('touchend', (e) => {
                     if(!isDragging) return;
                     isDragging = false;
-                    wrapper.style.zIndex = ""; // Reset wrapper z-index
+                    if(card.parentElement) card.parentElement.style.zIndex = "";
                     
-                    const currentX = e.changedTouches[0].clientX;
-                    const diff = currentX - startX;
-                    const threshold = 60; // Less distance needed for small cards
-
-                    if (Math.abs(diff) > threshold) {
-                        // SWIPE SUCCESS -> Fly Away
-                        const dir = diff > 0 ? 1 : -1;
-                        
+                    let diff = e.changedTouches[0].clientX - startX;
+                    
+                    if(Math.abs(diff) > 80) {
+                        // 1. FLY AWAY FAST
+                        let dir = diff > 0 ? 1 : -1;
                         gsap.to(card, {
-                            x: dir * 300,
-                            y: 50,
-                            rotation: dir * 45,
-                            opacity: 0,
-                            duration: 0.4,
-                            ease: "power2.out",
+                            x: dir * 400, rotation: dir * 45, opacity: 0, duration: 0.25, ease: "power1.in",
                             onComplete: () => {
-                                // Move to back of stack (Infinite Loop)
-                                wrapper.prepend(card); // Moves DOM node to bottom of stack (visually back)
-                                
-                                // Reset position
-                                gsap.set(card, { x: 0, y: 0, rotation: 0, opacity: 1, scale: 0.75, filter: "brightness(0.4)" });
-                                
-                                // Re-organize the stack visuals
-                                updateStackVisuals(wrapper);
+                                wrapper.prepend(card); // Move to back
+                                gsap.set(card, { x:0, rotation:0, opacity:1 }); // Reset physics
+                                updateStack(wrapper); // Animate others UP
                             }
                         });
                     } else {
-                        // SWIPE CANCEL -> Snap Back
-                        gsap.to(card, {
-                            x: 0, rotation: 0, duration: 0.3, ease: "back.out(2)"
-                        });
+                        // Cancel
+                        gsap.to(card, { x: 0, rotation: 0, duration: 0.4, ease: "elastic.out(1, 0.5)" });
                     }
                 });
-            });
+
+                wrapper.appendChild(card);
+            }
+            gridContainer.appendChild(wrapper);
         });
 
-        // Helper to reset the depth look after a swipe
-        function updateStackVisuals(wrapper) {
-            const cards = Array.from(wrapper.children); // Get all cards in new order
-            // Last child in DOM = Top of visual stack in CSS absolute positioning usually,
-            // BUT our z-index logic was `6 - i`.
-            // Let's re-assign z-indices and transforms based on DOM order.
-            // In our loop, we appended. So last appended is on top? No, `position:absolute` stacks by DOM order (last is top).
-            // Wait, we set explicit Z-Index `6-i` in generation loop (0 is top). 
-            
-            // To make infinite cycle work easiest:
-            // We want the LAST element in DOM to be the TOP card.
-            // When we generate, we did loop 0..6. 0 was Top.
-            // If we move 0 to `prepend` (start of DOM), it becomes "bottom" card.
-            
-            // Let's re-loop all cards in the wrapper and set styles based on reverse index
-            // The cards at the END of the list are the TOP cards.
-            
-            const reversedCards = cards.slice().reverse(); // Now index 0 is the Top Card (Last in DOM)
-            
-            reversedCards.forEach((c, i) => {
+        // --- 3. SMOOTH STACK UPDATE (ELASTIC ANIMATION) ---
+        function updateStack(wrapper) {
+            const cards = Array.from(wrapper.children).reverse(); // Reverse so index 0 is Top
+            cards.forEach((c, i) => {
+                // "Slider fast up" effect using Elastic Ease
                 gsap.to(c, {
+                    scale: 1 - (i*0.06),
+                    y: i*8,
+                    filter: `brightness(${1-(i*0.15)})`,
                     zIndex: 6 - i,
-                    scale: 1 - (i * 0.05),
-                    y: i * 8,
-                    filter: `brightness(${1 - (i * 0.15)})`,
-                    duration: 0.3
+                    duration: 0.6,
+                    ease: "elastic.out(1, 0.75)" // <--- THIS MAKES IT POP UP
                 });
             });
         }
 
-        // --- 4. SURPRISE FOOTER LOGIC ---
-        const sBtn = document.querySelector('.surprise-btn');
-        sBtn.addEventListener('click', () => {
-            gsap.to(sBtn, { scale: 0.9, duration: 0.1, yoyo: true, repeat: 1 });
-            gsap.to(sBtn, { y: -20, opacity: 0, duration: 0.5, delay: 0.2, display: 'none' });
-            gsap.fromTo('.hidden-footer', 
-                { display: 'block', opacity: 0, y: 20 }, 
-                { opacity: 1, y: 0, duration: 1, delay: 0.6 }
-            );
+        // --- 4. ANIMATE NEW SECTIONS ON SCROLL ---
+        const sections = document.querySelectorAll('.content-section');
+        sections.forEach(sec => {
+            gsap.to(sec, {
+                scrollTrigger: { trigger: sec, start: "top 85%" },
+                opacity: 1, y: 0, duration: 0.8, ease: "power2.out"
+            });
         });
 
     </script>

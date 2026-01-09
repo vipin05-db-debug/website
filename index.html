@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOURCE VAULT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- 1. CORE AESTHETICS --- */
+        :root {
+            --bg: #050505;
+            --card: #121212;
+            --accent: #b4f705; /* Acid Green for Aesthetic */
+            --text: #e0e0e0;
+            --glass: rgba(20, 20, 20, 0.6);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Space Grotesk', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* --- 2. NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .logo { font-weight: 700; font-size: 1.2rem; letter-spacing: 1px; }
+        
+        .nav-right { display: flex; align-items: center; gap: 20px; }
+        
+        .signup-btn {
+            border: 1px solid var(--text);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            background: transparent;
+            color: var(--text);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .signup-btn:hover { background: var(--text); color: var(--bg); }
+
+        .hamburger {
+            width: 30px;
+            height: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+        .line { width: 100%; height: 2px; background: white; transition: 0.3s; }
+
+        /* Full Screen Menu Overlay */
+        .menu-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            background: var(--bg);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            transform: translateY(-100%); /* Hidden by default */
+        }
+        .menu-link { font-size: 2rem; color: var(--text); text-decoration: none; opacity: 0; }
+
+        /* --- 3. INTRO SECTION --- */
+        .hero {
+            padding: 120px 20px 40px;
+            text-align: center;
+        }
+        .hero h1 { font-size: 3rem; line-height: 1; margin-bottom: 10px; }
+        .hero p { color: #888; font-size: 0.9rem; }
+
+        /* --- 4. STACKED CARDS (New Arrivals) --- */
+        .stack-section {
+            height: 450px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            margin-bottom: 50px;
+        }
+
+        .card-deck {
+            position: relative;
+            width: 85%;
+            height: 350px;
+        }
+
+        .stack-card {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+            border: 1px solid #333;
+            border-radius: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+            cursor: pointer;
+            transform-origin: center bottom;
+            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        
+        /* Initial Stacking Logic */
+        .stack-card:nth-child(1) { z-index: 4; transform: scale(1) translateY(0); }
+        .stack-card:nth-child(2) { z-index: 3; transform: scale(0.95) translateY(15px); opacity: 0.8; }
+        .stack-card:nth-child(3) { z-index: 2; transform: scale(0.90) translateY(30px); opacity: 0.6; }
+        .stack-card:nth-child(4) { z-index: 1; transform: scale(0.85) translateY(45px); opacity: 0.4; }
+
+        .card-label { color: var(--accent); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px;}
+        .card-title { font-size: 1.5rem; }
+
+        /* --- 5. MAIN LIBRARY GRID (2x3) --- */
+        .library-section {
+            padding: 20px;
+        }
+        .section-title { margin-bottom: 20px; font-size: 1.2rem; }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* 2 Cards per row */
+            gap: 15px;
+        }
+
+        .project-box {
+            background: var(--card);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid #222;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .box-preview {
+            height: 120px;
+            background: #222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #444;
+        }
+        
+        .box-info { padding: 15px; }
+        .box-info h3 { font-size: 1rem; margin-bottom: 5px; }
+        .box-info p { font-size: 0.7rem; color: #888; }
+
+        /* --- 6. SURPRISE FOOTER --- */
+        .surprise-wrapper {
+            padding: 50px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .surprise-btn {
+            width: 100%;
+            padding: 20px;
+            background: #111;
+            border: 1px dashed #444;
+            color: #666;
+            text-align: center;
+            border-radius: 15px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .ash-footer {
+            margin-top: 30px;
+            text-align: center;
+            opacity: 0;
+            display: none; /* Hidden initially */
+        }
+        .ash-footer h2 {
+            background: -webkit-linear-gradient(#eee, #333);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2rem;
+            filter: blur(0.5px);
+        }
+
+        /* --- 7. CODE MODAL OVERLAY --- */
+        .code-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            z-index: 2000;
+            transform: translateY(100%); /* Hidden down */
+            padding: 30px;
+            overflow-y: auto;
+        }
+        .close-modal {
+            position: absolute; top: 20px; right: 20px;
+            font-size: 1.5rem; cursor: pointer; color: var(--accent);
+        }
+        pre {
+            background: #111;
+            padding: 20px;
+            border-radius: 10px;
+            color: var(--accent);
+            font-family: monospace;
+            overflow-x: scroll;
+            margin-top: 40px;
+            border: 1px solid #333;
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">VAULT.</div>
+        <div class="nav-right">
+            <button class="signup-btn">Sign Up</button>
+            <div class="hamburger">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="menu-overlay">
+        <a href="#" class="menu-link">01. Home</a>
+        <a href="#" class="menu-link">02. Source Codes</a>
+        <a href="#" class="menu-link">03. About Me</a>
+        <a href="#" class="menu-link">04. Contact</a>
+    </div>
+
+    <header class="hero">
+        <h1 class="reveal-text">CODE<br>LIBRARY</h1>
+        <p class="reveal-text">Premium Source Assets</p>
+    </header>
+
+    <section class="stack-section">
+        <div class="card-deck" id="cardDeck">
+            <div class="stack-card">
+                <span class="card-label">New Arrival</span>
+                <h2 class="card-title">Project A</h2>
+                <p style="font-size: 0.8rem; color:#888; margin-top:10px;">Click to Swipe</p>
+            </div>
+            <div class="stack-card">
+                <span class="card-label">New Arrival</span>
+                <h2 class="card-title">Project B</h2>
+            </div>
+            <div class="stack-card">
+                <span class="card-label">New Arrival</span>
+                <h2 class="card-title">Project C</h2>
+            </div>
+            <div class="stack-card">
+                <span class="card-label">New Arrival</span>
+                <h2 class="card-title">Project D</h2>
+            </div>
+        </div>
+    </section>
+
+    <section class="library-section">
+        <h3 class="section-title">All Projects</h3>
+        <div class="grid-container">
+            <div class="project-box">
+                <div class="box-preview">IMG</div>
+                <div class="box-info">
+                    <h3>Dashboard UI</h3>
+                    <p>React / GSAP</p>
+                </div>
+            </div>
+            <div class="project-box">
+                <div class="box-preview">IMG</div>
+                <div class="box-info">
+                    <h3>E-Commerce</h3>
+                    <p>HTML / CSS</p>
+                </div>
+            </div>
+            <div class="project-box">
+                <div class="box-preview">IMG</div>
+                <div class="box-info">
+                    <h3>Portfolio 3D</h3>
+                    <p>Three.js</p>
+                </div>
+            </div>
+            <div class="project-box">
+                <div class="box-preview">IMG</div>
+                <div class="box-info">
+                    <h3>Chat App</h3>
+                    <p>Socket.io</p>
+                </div>
+            </div>
+            <div class="project-box">
+                <div class="box-preview">IMG</div>
+                <div class="box-info">
+                    <h3>Crypto Tracker</h3>
+                    <p>API Fetch</p>
+                </div>
+            </div>
+            <div class="project-box">
+                <div class="box-preview">IMG</div>
+                <div class="box-info">
+                    <h3>Login Form</h3>
+                    <p>Validation JS</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="surprise-wrapper">
+        <div class="surprise-btn">Click for Surprise</div>
+        
+        <footer class="ash-footer">
+            <h2>ASHES</h2>
+            <p style="color: #666; font-size: 0.8rem; margin-top: 10px;">Designed by You.</p>
+        </footer>
+    </div>
+
+    <div class="code-modal">
+        <div class="close-modal">✕</div>
+        <h2 id="modal-title">Source Code</h2>
+        <pre><code id="code-content">
+// Loading Source Code...
+const project = "Aesthetic";
+console.log("Hello World");
+        </code></pre>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+<script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // --- 1. INTRO & HAMBURGER (Same as before) ---
+    gsap.from(".reveal-text", {
+        y: 100, opacity: 0, duration: 1.5, stagger: 0.2, ease: "power4.out"
+    });
+
+    let isMenuOpen = false;
+    const menuTl = gsap.timeline({ paused: true });
+    menuTl.to(".menu-overlay", { duration: 0.6, y: "0%", ease: "expo.inOut" })
+          .to(".menu-link", { y: 0, opacity: 1, stagger: 0.1, duration: 0.4 }, "-=0.3");
+
+    document.querySelector(".hamburger").addEventListener("click", () => {
+        if(!isMenuOpen) { menuTl.play(); isMenuOpen = true; } 
+        else { menuTl.reverse(); isMenuOpen = false; }
+    });
+
+    // --- 2. REALISTIC FINGER SWIPE LOGIC ---
+    const stackCards = Array.from(document.querySelectorAll(".stack-card"));
+    
+    // We reverse the array so we handle the "top" card (last in HTML) first visually if needed, 
+    // but CSS z-index handles stacking. We just need to attach events to all.
+    
+    stackCards.forEach((card) => {
+        let startX = 0;
+        let currentX = 0;
+        let isDragging = false;
+
+        // 1. TOUCH START: Record where the finger touched
+        card.addEventListener("touchstart", (e) => {
+            startX = e.touches[0].clientX;
+            isDragging = true;
+            card.style.transition = "none"; // Remove CSS transition for instant drag response
+        });
+
+        // 2. TOUCH MOVE: Make the card follow the finger
+        card.addEventListener("touchmove", (e) => {
+            if (!isDragging) return;
+            currentX = e.touches[0].clientX;
+            let diff = currentX - startX;
+            
+            // Move card and rotate slightly based on drag distance
+            gsap.set(card, { 
+                x: diff, 
+                rotation: diff * 0.05 // Slight tilt
+            });
+        });
+
+        // 3. TOUCH END: Check if swiped far enough
+        card.addEventListener("touchend", (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+            
+            const diff = currentX - startX;
+            const threshold = 100; // Pixel distance required to count as a swipe
+
+            if (Math.abs(diff) > threshold) {
+                // SWIPE CONFIRMED -> Fly away
+                const direction = diff > 0 ? 1 : -1; // 1 = Right, -1 = Left
+                
+                // Animate card off screen
+                gsap.to(card, {
+                    x: direction * 500, // Fly way off screen
+                    y: 50,
+                    rotation: direction * 20,
+                    opacity: 0,
+                    duration: 0.4,
+                    ease: "power2.out",
+                    onComplete: () => {
+                        card.remove(); // Remove from DOM
+                        updateStackPositions(); // Re-stack remaining cards
+                    }
+                });
+            } else {
+                // SWIPE CANCELED -> Snap back to center
+                gsap.to(card, {
+                    x: 0,
+                    rotation: 0,
+                    duration: 0.3,
+                    ease: "back.out(1.7)"
+                });
+            }
+        });
+    });
+
+    // Function to move the cards behind UP into new positions
+    function updateStackPositions() {
+        const remainingCards = document.querySelectorAll(".stack-card");
+        
+        remainingCards.forEach((c, i) => {
+            // i=0 is the top card now
+            let scale = 1;
+            let y = 0;
+            let opacity = 1;
+            let zIndex = 4 - i;
+
+            if (i === 0) {
+                scale = 1; y = 0; opacity = 1; 
+            } else if (i === 1) {
+                scale = 0.95; y = 15; opacity = 0.8; 
+            } else if (i === 2) {
+                scale = 0.90; y = 30; opacity = 0.6; 
+            } else {
+                scale = 0.85; y = 45; opacity = 0.4;
+            }
+
+            gsap.to(c, {
+                scale: scale,
+                y: y,
+                opacity: opacity,
+                zIndex: zIndex,
+                duration: 0.5,
+                ease: "power2.out"
+            });
+        });
+    }
+
+    // --- 3. GRID & MODAL LOGIC (Standard) ---
+    gsap.from(".project-box", {
+        scrollTrigger: { trigger: ".grid-container", start: "top 80%" },
+        y: 50, opacity: 0, duration: 0.8, stagger: 0.1, ease: "power2.out"
+    });
+
+    const modal = document.querySelector(".code-modal");
+    const closeModal = document.querySelector(".close-modal");
+    
+    document.querySelectorAll(".project-box").forEach(box => {
+        box.addEventListener("click", () => {
+            gsap.to(modal, { y: "0%", duration: 0.5, ease: "power3.inOut" });
+        });
+    });
+
+    closeModal.addEventListener("click", () => {
+        gsap.to(modal, { y: "100%", duration: 0.5, ease: "power3.inOut" });
+    });
+
+    // --- 4. SURPRISE FOOTER ---
+    const surpriseBtn = document.querySelector(".surprise-btn");
+    const ashFooter = document.querySelector(".ash-footer");
+
+    surpriseBtn.addEventListener("click", () => {
+        gsap.to(surpriseBtn, {
+            x: -10, yoyo: true, repeat: 5, duration: 0.05,
+            onComplete: () => {
+                gsap.to(surpriseBtn, { opacity: 0, display: "none" });
+                ashFooter.style.display = "block";
+                gsap.to(ashFooter, { opacity: 1, duration: 2, ease: "rough" });
+                gsap.fromTo("body", { backgroundColor: "#222" }, { backgroundColor: "#050505", duration: 1 });
+            }
+        });
+    });
+</script>
+</body>
+</html>
